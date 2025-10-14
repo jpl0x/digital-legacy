@@ -17,7 +17,7 @@ export default function Home() {
       const { data, error } = await supabase
         .from('journal_entries')
         .insert({
-          user_id: '00000000-0000-0000-0000-000000000000', // Temporary, we'll add auth later
+          user_id: '00000000-0000-0000-0000-000000000000', // Placeholder user ID
           content: entry,
           entry_type: 'freeform'
         })
@@ -26,8 +26,8 @@ export default function Home() {
 
       setMessage('Entry saved successfully!')
       setEntry('') // Clear the form
-    } catch (error: any) {
-      setMessage(`Error: ${error.message}`)
+    } catch (error: unknown) {
+      setMessage(`Error: ${error instanceof Error ? error.message : "Unknown error"}`)
     } finally {
       setLoading(false)
     }
