@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Digital Legacy
 
-## Getting Started
+A platform for preserving your thoughts, memories, and wisdom for loved ones.
 
-First, run the development server:
+## What is this?
 
+Digital Legacy allows you to capture your personality, values, and life experiences so that your loved ones can interact with an AI representation of you—even after you're gone.
+
+## Current Status
+
+**Phase 1: MVP (In Progress)**
+
+✅ Journal entry system
+✅ Database integration (Supabase)
+✅ Basic UI
+🚧 AI chat interface (coming next)
+🚧 User authentication (coming soon)
+🚧 Guided prompts framework (planned)
+
+## Tech Stack
+
+- **Frontend:** Next.js 15, TypeScript, Tailwind CSS
+- **Backend:** Supabase (PostgreSQL)
+- **AI:** OpenAI GPT-4 (planned)
+- **Hosting:** Vercel
+
+## Why I'm Building This
+
+I'm building this for my son. I want to leave him something meaningful—not just photos or videos, but a way to ask me questions, get advice, and know how I think, even when I'm no longer here.
+
+## Development Timeline
+
+- **Week 1:** Database + journal system ✅
+- **Week 2-3:** AI chat integration
+- **Week 4-6:** Guided prompts + personality framework
+- **Month 3+:** Voice cloning, authentication, production features
+
+## Setup (Local Development)
 ```bash
+# Clone the repo
+git clone https://github.com/jpl0x/digital-legacy.git
+cd digital-legacy
+
+# Install dependencies
+npm install
+
+# Create .env.local with your Supabase credentials
+# NEXT_PUBLIC_SUPABASE_URL=your_url
+# NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key
+
+# Run dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## License
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+MIT (for now - may change as project evolves)
 
-## Learn More
+## Contact
 
-To learn more about Next.js, take a look at the following resources:
+Building in public. Follow the journey.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*This project is deeply personal. If you've lost someone and wish you could ask them one more question, you understand why this matters.*
