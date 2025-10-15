@@ -1,12 +1,30 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 
 export default function Home() {
   const [entry, setEntry] = useState('')
+  const [entries, setEntries] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+
+  useEffect(() => {
+    fetchEntries()
+  }, [])
+
+  const fetchEntries = async () => {
+    const { data, error } = await supabase
+      .from('journal_entries')
+      .select('*')
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      console.error('Error fetching entries:', error)
+    } else {
+      setEntries(data || [])
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,6 +44,7 @@ export default function Home() {
 
       setMessage('Entry saved successfully!')
       setEntry('') // Clear the form
+      fetchEntries() // Refresh the list of entries
     } catch (error: unknown) {
       setMessage(`Error: ${error instanceof Error ? error.message : "Unknown error"}`)
     } finally {
@@ -44,9 +63,14 @@ export default function Home() {
         </p>
 
         <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6">
-          <label className="block mb-2 text-sm font-medium text-gray-700">
-            Write your journal entry:
-          </label>
+          <div className="flex justify-between items-center mb-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Write your journal entry:
+            </label>
+            <span className="text-sm text-gray-500">
+              {entry.trim().split(/\s+/).filter(Boolean).length} words
+            </span>
+          </div>
           
           <textarea
             value={entry}
@@ -72,6 +96,32 @@ export default function Home() {
             )}
           </div>
         </form>
+
+        {/* Display saved entries */}
+        {entries.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-2xl font-bold mb-4 text-gray-900">
+              Your Journal Entries ({entries.length})
+            </h2>
+            
+            <div className="space-y-4">
+              {entries.map((entry) => (
+                <div key={entry.id} className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+                  <p className="text-sm text-gray-500 mb-2">
+                    {new Date(entry.created_at).toLocaleDateString('en-GB', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                  </p>
+                  <p className="text-gray-800 whitespace-pre-wrap">{entry.content}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
