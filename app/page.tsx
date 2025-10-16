@@ -26,6 +26,24 @@ export default function Home() {
     }
   }
 
+  const deleteEntry = async (id: number) => {
+    const confirmed = window.confirm('Are you sure you want to delete this entry?')
+
+    if (!confirmed) return
+
+    const { error } = await supabase
+      .from('journal_entries')
+      .delete()
+      .eq('id', id)
+
+    if (error) {
+      console.error('Error deleting entry:', error)
+      alert('Failed to delete entry.')
+    } else {
+      fetchEntries() // Refresh the list of entries
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -107,6 +125,7 @@ export default function Home() {
             <div className="space-y-4">
               {entries.map((entry) => (
                 <div key={entry.id} className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+                 <div className="flex justify-between items-start mb-2"> 
                   <p className="text-sm text-gray-500 mb-2">
                     {new Date(entry.created_at).toLocaleDateString('en-GB', {
                       day: 'numeric',
@@ -116,6 +135,13 @@ export default function Home() {
                       minute: '2-digit'
                     })}
                   </p>
+                  <button
+                    onClick={() => deleteEntry(entry.id)}
+                    className="text-red-600 hover:text-red-800 text-sm font-medium"
+                  >
+                    Delete
+                  </button>
+                 </div>
                   <p className="text-gray-800 whitespace-pre-wrap">{entry.content}</p>
                 </div>
               ))}
