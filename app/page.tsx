@@ -116,10 +116,13 @@ export default function Home() {
         </form>
 
         {/* Display saved entries */}
-        {entries.length > 0 && (
+        {entries.length > 0 ? (
           <div className="mt-12">
-            <h2 className="text-2xl font-bold mb-4 text-gray-900">
-              Your Journal Entries ({entries.length})
+            <h2 className="text-2xl font-bold mb-4 text-gray-900 flex items-center gap-3">
+              Your Journal Entries 
+              <span className="bg-blue-600 text-white text-sm px-3 py-1 rounded-full">
+              {entries.length}
+              </span>
             </h2>
             
             <div className="space-y-4">
@@ -142,13 +145,21 @@ export default function Home() {
                     Delete
                   </button>
                  </div>
-                  <p className="text-gray-800 whitespace-pre-wrap">{entry.content}</p>
+                <p className="text-gray-800 whitespace-pre-wrap">{entry.content}</p>
                 </div>
               ))}
             </div>
           </div>
+        ) : (
+          <div className="mt-12 text-center text-gray-500">
+            <p className="text-lg">No entries yet. Start preserving your thoughts above.</p>
+          </div>
         )}
-      </div>
+        </div>
+    <footer className="mt-16 text-center text-gray-500 text-sm">
+      <p>Digital Legacy &copy; {new Date().getFullYear()}</p>
+      <p className="mt-1">Building something meaningful, one entry at a time.</p>
+    </footer>
     </div>
   )
 }
