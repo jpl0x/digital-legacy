@@ -8,6 +8,8 @@ export default function Home() {
   const [entries, setEntries] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [editingId, setEditingId] = useState<number | null>(null)
+  const [editContent, setEditContent] = useState('')
 
   useEffect(() => {
     fetchEntries()
@@ -28,7 +30,6 @@ export default function Home() {
 
   const deleteEntry = async (id: number) => {
     const confirmed = window.confirm('Are you sure you want to delete this entry?')
-
     if (!confirmed) return
 
     const { error } = await supabase
@@ -40,8 +41,32 @@ export default function Home() {
       console.error('Error deleting entry:', error)
       alert('Failed to delete entry.')
     } else {
-      fetchEntries() // Refresh the list of entries
+      fetchEntries() // Refresh the list after deletion
     }
+  }
+
+  const startEdit = (id: number, content: string) => {
+    setEditingId(id)
+    setEditContent(content)
+  }
+
+  const saveEdit = async (id: number) => {
+    const { error } = await supabase
+      .from('journal_entries')
+      .update({ content: editContent })
+      .eq('id', id)
+
+    if (error) {
+      alert('Failed to update entry.')
+    } else {
+      setEditingId(null)
+      fetchEntries() // Refresh the list after update
+    }
+  }
+
+  const cancelEdit = () => {
+    setEditingId(null)
+    setEditContent('')
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -61,8 +86,8 @@ export default function Home() {
       if (error) throw error
 
       setMessage('Entry saved successfully!')
-      setEntry('') // Clear the form
-      fetchEntries() // Refresh the list of entries
+      setEntry('')
+      fetchEntries()
     } catch (error: unknown) {
       setMessage(`Error: ${error instanceof Error ? error.message : "Unknown error"}`)
     } finally {
@@ -85,8 +110,9 @@ export default function Home() {
             <label className="block text-sm font-medium text-gray-700">
               Write your journal entry:
             </label>
+           
             <span className="text-sm text-gray-500">
-              {entry.trim().split(/\s+/).filter(Boolean).length} words
+              {entry.trim().split(/\s+/).filter(Boolean).length} words · {entry.length} characters
             </span>
           </div>
           
@@ -118,34 +144,76 @@ export default function Home() {
         {/* Display saved entries */}
         {entries.length > 0 ? (
           <div className="mt-12">
+            
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+              <p className="text-sm text-blue-900">
+                <strong>Total words preserved:</strong> {entries.reduce((total, e) => total + e.content.trim().split(/\s+/).filter(Boolean).length, 0).toLocaleString()}
+              </p>
+            </div>
+
             <h2 className="text-2xl font-bold mb-4 text-gray-900 flex items-center gap-3">
               Your Journal Entries 
               <span className="bg-blue-600 text-white text-sm px-3 py-1 rounded-full">
-              {entries.length}
+                {entries.length}
               </span>
             </h2>
             
             <div className="space-y-4">
               {entries.map((entry) => (
                 <div key={entry.id} className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-                 <div className="flex justify-between items-start mb-2"> 
-                  <p className="text-sm text-gray-500 mb-2">
-                    {new Date(entry.created_at).toLocaleDateString('en-GB', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })}
-                  </p>
-                  <button
-                    onClick={() => deleteEntry(entry.id)}
-                    className="text-red-600 hover:text-red-800 text-sm font-medium"
-                  >
-                    Delete
-                  </button>
-                 </div>
-                <p className="text-gray-800 whitespace-pre-wrap">{entry.content}</p>
+                  <div className="flex justify-between items-start mb-2"> 
+                    <p className="text-sm text-gray-500">
+                      {new Date(entry.created_at).toLocaleDateString('en-GB', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </p>
+                    <div className="flex gap-2">
+                     
+                      <button
+                        onClick={() => startEdit(entry.id, entry.content)}
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => deleteEntry(entry.id)}
+                        className="text-red-600 hover:text-red-800 text-sm font-medium"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {editingId === entry.id ? (
+                    <div>
+                      <textarea
+                        value={editContent}
+                        onChange={(e) => setEditContent(e.target.value)}
+                        className="w-full p-4 border border-gray-300 rounded-lg mb-2"
+                        rows={6}
+                      />
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={() => saveEdit(entry.id)} 
+                          className="bg-blue-600 text-white px-4 py-1 rounded text-sm hover:bg-blue-700"
+                        >
+                          Save
+                        </button>
+                        <button 
+                          onClick={cancelEdit} 
+                          className="bg-gray-300 text-gray-700 px-4 py-1 rounded text-sm hover:bg-gray-400"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-gray-800 whitespace-pre-wrap">{entry.content}</p>
+                  )}
                 </div>
               ))}
             </div>
@@ -155,11 +223,12 @@ export default function Home() {
             <p className="text-lg">No entries yet. Start preserving your thoughts above.</p>
           </div>
         )}
-        </div>
-    <footer className="mt-16 text-center text-gray-500 text-sm">
-      <p>Digital Legacy &copy; {new Date().getFullYear()}</p>
-      <p className="mt-1">Building something meaningful, one entry at a time.</p>
-    </footer>
+      </div>
+      
+      <footer className="mt-16 text-center text-gray-500 text-sm">
+        <p>Digital Legacy &copy; {new Date().getFullYear()}</p>
+        <p className="mt-1">Building something meaningful, one entry at a time.</p>
+      </footer>
     </div>
   )
 }
