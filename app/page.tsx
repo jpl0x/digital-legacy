@@ -8,6 +8,7 @@ export default function Home() {
   const [entries, setEntries] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
   const [editingId, setEditingId] = useState<number | null>(null)
   const [editContent, setEditContent] = useState('')
 
@@ -95,6 +96,10 @@ export default function Home() {
     }
   }
 
+  const filteredEntries = entries.filter(entry => 
+    entry.content.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-3xl mx-auto">
@@ -120,7 +125,7 @@ export default function Home() {
             value={entry}
             onChange={(e) => setEntry(e.target.value)}
             placeholder="What's on your mind? What do you want your loved ones to know?"
-            className="w-full h-64 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+            className="w-full h-64 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none placeholder:text-gray-500"
             disabled={loading}
           />
 
@@ -150,6 +155,39 @@ export default function Home() {
                 <strong>Total words preserved:</strong> {entries.reduce((total, e) => total + e.content.trim().split(/\s+/).filter(Boolean).length, 0).toLocaleString()}
               </p>
             </div>
+            <div className="grid grid-cols-3 gap-4 mb-4">
+              <div className="bg-white border border-gray-200 rounded-lg p-4 text-center">
+                <p className="text-2xl font-bold text-blue-600">{entries.length}</p>
+                <p className="text-xs text-gray-600">Total Entries</p>
+              </div>
+              <div className="bg-white border border-gray-200 rounded-lg p-4 text-center">
+                <p className="text-2xl font-bold text-blue-600">
+                  {entries.reduce((total, e) => total + e.content.trim().split(/\s+/).filter(Boolean).length, 0).toLocaleString()}
+                </p>
+                <p className="text-xs text-gray-600">Words Preserved</p>
+              </div>
+              <div className="bg-white border border-gray-200 rounded-lg p-4 text-center">
+                <p className="text-2xl font-bold text-blue-600">
+                  {Math.round(entries.reduce((total, e) => total + e.content.trim().split(/\s+/).filter(Boolean).length, 0) / entries.length) || 0}
+                </p>
+                <p className="text-xs text-gray-600">Avg Words/Entry</p>
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Search your entries..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder:text-gray-500"
+              />
+              {searchTerm && (
+                <p className="text-sm text-gray-500 mt-2">
+                  Found {filteredEntries.length} of {entries.length} entries
+                </p>
+              )}
+            </div>
 
             <h2 className="text-2xl font-bold mb-4 text-gray-900 flex items-center gap-3">
               Your Journal Entries 
@@ -159,7 +197,7 @@ export default function Home() {
             </h2>
             
             <div className="space-y-4">
-              {entries.map((entry) => (
+              {filteredEntries.map((entry) => (
                 <div key={entry.id} className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
                   <div className="flex justify-between items-start mb-2"> 
                     <p className="text-sm text-gray-500">
@@ -170,6 +208,9 @@ export default function Home() {
                         hour: '2-digit',
                         minute: '2-digit'
                       })}
+                    {entry.updated_at && entry.updated_at !== entry.created_at && (
+                      <span className="ml-2 text-xs italic text-gray-400">(edited)</span>
+                    )}
                     </p>
                     <div className="flex gap-2">
                      
@@ -193,7 +234,7 @@ export default function Home() {
                       <textarea
                         value={editContent}
                         onChange={(e) => setEditContent(e.target.value)}
-                        className="w-full p-4 border border-gray-300 rounded-lg mb-2"
+                        className="w-full p-4 border border-gray-300 rounded-lg mb-2 placeholder:text-gray-500"
                         rows={6}
                       />
                       <div className="flex gap-2">
