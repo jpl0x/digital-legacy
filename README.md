@@ -6,6 +6,15 @@ A platform for preserving your thoughts, memories, and wisdom for loved ones.
 
 Digital Legacy allows you to capture your personality, values, and life experiences so that your loved ones can interact with an AI representation of you—even after you're gone.
 
+## Recent Updates
+
+### October 2025
+- ✅ Entry editing functionality
+- ✅ Search/filter entries
+- ✅ Statistics dashboard (total entries, words, averages)
+- ✅ Improved placeholder visibility
+- ✅ Word and character counters
+
 ## Current Status
 
 **Phase 1: MVP (In Progress)**

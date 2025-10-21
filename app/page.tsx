@@ -209,7 +209,15 @@ export default function Home() {
                         minute: '2-digit'
                       })}
                     {entry.updated_at && entry.updated_at !== entry.created_at && (
-                      <span className="ml-2 text-xs italic text-gray-400">(edited)</span>
+                      <span className="block text-xs text-gray-400 mt-1">
+                        Last edited: {new Date(entry.updated_at).toLocaleDateString('en-GB', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </span>
                     )}
                     </p>
                     <div className="flex gap-2">
