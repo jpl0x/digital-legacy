@@ -12,6 +12,13 @@ export default function Home() {
   const [editingId, setEditingId] = useState<number | null>(null)
   const [editContent, setEditContent] = useState('')
 
+// Performance Tracking
+
+if (typeof window !== 'undefined') {
+  console.log('Digital Legacy loaded:', new Date().toISOString())
+}
+
+
   useEffect(() => {
     fetchEntries()
   }, [])
