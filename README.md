@@ -9,29 +9,56 @@ Digital Legacy allows you to capture your personality, values, and life experien
 ## Recent Updates
 
 ### October 2025
+- ✅ **Major refactor:** Modular architecture with clean separation of concerns
 - ✅ Entry editing functionality
 - ✅ Search/filter entries
 - ✅ Statistics dashboard (total entries, words, averages)
 - ✅ Improved placeholder visibility
 - ✅ Word and character counters
+- ✅ Server actions + proper Next.js 15 patterns
+- ✅ Reusable components (ready for auth integration)
 
 ## Current Status
 
-**Phase 1: MVP (In Progress)**
+**Phase 1: MVP (In Progress - 15% Complete)**
 
-✅ Journal entry system
-✅ Database integration (Supabase)
-✅ Basic UI
-🚧 AI chat interface (coming next)
-🚧 User authentication (coming soon)
+✅ Journal entry system  
+✅ Database integration (Supabase)  
+✅ Clean, modular codebase  
+✅ Entry management (create, edit, delete)  
+✅ Search and statistics  
+🚧 User authentication (next priority)  
+🚧 AI chat interface (coming after auth)  
 🚧 Guided prompts framework (planned)
 
 ## Tech Stack
 
 - **Frontend:** Next.js 15, TypeScript, Tailwind CSS
 - **Backend:** Supabase (PostgreSQL)
+- **Architecture:** Server Components + Server Actions
 - **AI:** OpenAI GPT-4 (planned)
 - **Hosting:** Vercel
+
+## Project Structure
+
+```
+digital-legacy/
+├── app/
+│   ├── page.tsx              # Main page
+│   ├── components/           # UI components
+│   │   ├── EntryForm.tsx
+│   │   ├── EntryList.tsx
+│   │   ├── EntryCard.tsx
+│   │   ├── EntryStats.tsx
+│   │   └── SearchBar.tsx
+│   └── actions/
+│       └── entries.ts        # Server actions
+└── lib/
+    ├── database/
+    │   └── entries.ts        # Database queries
+    └── utils/
+        └── text.ts           # Utilities
+```
 
 ## Why I'm Building This
 
@@ -40,9 +67,11 @@ I'm building this for my son. I want to leave him something meaningful—not jus
 ## Development Timeline
 
 - **Week 1:** Database + journal system ✅
-- **Week 2-3:** AI chat integration
-- **Week 4-6:** Guided prompts + personality framework
-- **Month 3+:** Voice cloning, authentication, production features
+- **Week 2-3:** Refactor + clean architecture ✅
+- **Week 3-4:** User authentication
+- **Week 4-6:** AI chat integration
+- **Week 7-8:** Guided prompts + personality framework
+- **Month 3+:** Voice cloning, beneficiary system, production features
 
 ## Setup (Local Development)
 ```bash
@@ -59,7 +88,9 @@ npm install
 
 # Run dev server
 npm run dev
+```
 
+Open [http://localhost:3000](http://localhost:3000) to see the app.
 
 ## License
 
