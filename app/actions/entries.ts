@@ -6,6 +6,7 @@ import {
   updateEntry as dbUpdateEntry,
   deleteEntry as dbDeleteEntry
 } from '@/lib/database/entries'
+import { PLACEHOLDER_USER_ID, DEFAULT_ENTRY_TYPE } from '@/lib/constants'
 
 /**
  * Server action to create a new journal entry
@@ -26,9 +27,9 @@ export async function createEntryAction(content: string) {
   }
 
   const result = await dbCreateEntry({
-    user_id: '00000000-0000-0000-0000-000000000000', // Placeholder for now
+    user_id: PLACEHOLDER_USER_ID,
     content: content.trim(),
-    entry_type: 'freeform'
+    entry_type: DEFAULT_ENTRY_TYPE
   })
 
   if (result.error) {

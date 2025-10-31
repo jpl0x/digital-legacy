@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase'
+import { PLACEHOLDER_USER_ID, DEFAULT_ENTRY_TYPE } from '@/lib/constants'
 
 export interface JournalEntry {
   id: number
@@ -31,7 +32,7 @@ export interface UpdateEntryData {
  *   console.error('Failed to fetch entries:', error)
  * }
  */
-export async function fetchEntries(userId: string = '00000000-0000-0000-0000-000000000000') {
+export async function fetchEntries(userId: string = PLACEHOLDER_USER_ID) {
   const { data, error } = await supabase
     .from('journal_entries')
     .select('*')
@@ -68,7 +69,7 @@ export async function createEntry(entryData: CreateEntryData) {
     .insert({
       user_id: entryData.user_id,
       content: entryData.content,
-      entry_type: entryData.entry_type || 'freeform'
+      entry_type: entryData.entry_type || DEFAULT_ENTRY_TYPE
     })
     .select()
     .single()
@@ -152,7 +153,7 @@ export async function deleteEntry(id: number) {
  */
 export async function searchEntries(
   searchTerm: string, 
-  userId: string = '00000000-0000-0000-0000-000000000000'
+  userId: string = PLACEHOLDER_USER_ID
 ) {
   const { data, error } = await supabase
     .from('journal_entries')
