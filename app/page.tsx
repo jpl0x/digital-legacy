@@ -1,6 +1,13 @@
+import { Metadata } from 'next'
 import { fetchEntries } from '@/lib/database/entries'
 import { EntryForm } from './components/EntryForm'
 import { EntryList } from './components/EntryList'
+import { APP_META } from '@/lib/constants'
+
+export const metadata: Metadata = {
+  title: `${APP_META.name} - ${APP_META.tagline}`,
+  description: APP_META.description,
+}
 
 export default async function Home() {
   // Fetch entries on the server
@@ -14,10 +21,10 @@ export default async function Home() {
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl font-bold mb-2 text-gray-900">
-          Digital Legacy - For My Son
+          {APP_META.name} - {APP_META.tagline}
         </h1>
         <p className="text-gray-600 mb-8">
-          Start preserving your thoughts, memories, and wisdom.
+          {APP_META.description}
         </p>
 
         <EntryForm />
@@ -26,8 +33,8 @@ export default async function Home() {
       </div>
 
       <footer className="mt-16 text-center text-gray-500 text-sm">
-        <p>Digital Legacy &copy; {new Date().getFullYear()}</p>
-        <p className="mt-1">Building something meaningful, one entry at a time.</p>
+        <p>{APP_META.copyright}</p>
+        <p className="mt-1">{APP_META.footer}</p>
       </footer>
     </div>
   )
