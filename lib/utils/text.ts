@@ -1,4 +1,5 @@
 import { JournalEntry } from '@/lib/database/entries'
+import { DATE_FORMAT } from '@/lib/constants'
 
 /**
  * Counts the number of words in a text string
@@ -70,22 +71,19 @@ export function calculateAverageWords(entries: JournalEntry[]): number {
 
 /**
  * Formats a date string into a human-readable format
- * Uses British English date format (day month year, 24-hour time)
+ * Uses configured format from constants (British English by default)
  * 
  * @param dateString - ISO 8601 date string (e.g., from database timestamp)
- * @returns Formatted date string (e.g., "24 October 2025, 13:45")
+ * @returns Formatted date string (e.g., "1 November 2025, 12:46")
  * 
  * @example
- * formatDate('2025-10-24T13:45:00Z') // returns "24 October 2025, 13:45"
+ * formatDate('2025-11-01T12:46:00Z') // returns "1 November 2025, 12:46"
  */
 export function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  })
+  return new Date(dateString).toLocaleDateString(
+    DATE_FORMAT.locale,
+    DATE_FORMAT.options
+  )
 }
 
 /**
@@ -97,8 +95,8 @@ export function formatDate(dateString: string): string {
  * @returns True if entry was edited, false if timestamps match
  * 
  * @example
- * wasEdited('2025-10-24T10:00:00Z', '2025-10-24T10:00:00Z') // returns false
- * wasEdited('2025-10-24T10:00:00Z', '2025-10-24T11:00:00Z') // returns true
+ * wasEdited('2025-11-01T10:00:00Z', '2025-11-01T10:00:00Z') // returns false
+ * wasEdited('2025-11-01T10:00:00Z', '2025-11-01T11:00:00Z') // returns true
  */
 export function wasEdited(createdAt: string, updatedAt: string): boolean {
   return updatedAt !== createdAt
