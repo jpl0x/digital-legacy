@@ -15,6 +15,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.4.2] - 2025-11-01
+
+### Changed
+- Updated text utilities to use centralized DATE_FORMAT constant
+- Updated main page to use APP_META constants for all text content
+- Added proper Next.js metadata for improved SEO
+- Completed constants refactor: all hardcoded values now centralized
+
+### Technical
+- Date formatting now uses configuration from constants
+- App metadata (titles, descriptions, footer) now managed centrally
+- Browser tab displays proper title instead of default Next.js text
+
+---
+
 ## [0.4.1] - 2025-10-26
 
 ### Added
@@ -96,4 +111,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **0.3.0** - Edit, search, and statistics features
 - **0.4.0** - Major refactor: modular architecture
 - **0.4.1** - Documentation improvements (JSDoc)
+- **0.4.2** - Constants refactor completion
 - **0.5.0** - (Planned) User authentication
