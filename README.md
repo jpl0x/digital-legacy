@@ -6,7 +6,19 @@ A platform for preserving your thoughts, memories, and wisdom for loved ones.
 
 Digital Legacy allows you to capture your personality, values, and life experiences so that your loved ones can interact with an AI representation of you—even after you're gone.
 
+## Development Status
+
+**Currently in maintenance mode (November 2025)** - Active development paused while completing Level 3 Diploma in Networking and Cybersecurity. Daily commits maintain project visibility, but major feature work (authentication, AI integration) will resume after course completion in early 2026.
+
+The foundation is solid. The architecture is clean. The vision is clear. Just temporarily prioritising formal education that will make the security implementation even better.
+
 ## Recent Updates
+
+### November 2025
+- ✅ Added custom 404 page
+- ✅ Added loading state component
+- ✅ TypeScript strict mode configuration
+- ✅ Professional repository documentation
 
 ### October 2025
 - ✅ **Major refactor:** Modular architecture with clean separation of concerns
@@ -27,7 +39,7 @@ Digital Legacy allows you to capture your personality, values, and life experien
 ✅ Clean, modular codebase  
 ✅ Entry management (create, edit, delete)  
 ✅ Search and statistics  
-🚧 User authentication (next priority)  
+🚧 User authentication (next priority - resuming Q1 2025)  
 🚧 AI chat interface (coming after auth)  
 🚧 Guided prompts framework (planned)
 
@@ -68,10 +80,12 @@ I'm building this for my son. I want to leave him something meaningful—not jus
 
 - **Week 1:** Database + journal system ✅
 - **Week 2-3:** Refactor + clean architecture ✅
-- **Week 3-4:** User authentication
-- **Week 4-6:** AI chat integration
-- **Week 7-8:** Guided prompts + personality framework
-- **Month 3+:** Voice cloning, beneficiary system, production features
+- **Nov 2025 - Jan 2026:** Maintenance mode (cybersecurity course)
+- **Q1 2026:** Resume active development
+  - User authentication
+  - AI chat integration
+  - Guided prompts + personality framework
+- **Q2 2026+:** Voice cloning, beneficiary system, production features
 
 ## Setup (Local Development)
 ```bash
@@ -91,6 +105,10 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to see the app.
+
+## Security
+
+See [SECURITY.md](SECURITY.md) for information about reporting vulnerabilities.
 
 ## License
 
